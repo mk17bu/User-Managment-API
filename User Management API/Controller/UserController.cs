@@ -16,7 +16,7 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
         return Ok(_usersDataStore.Users);
     }
 
-    [HttpGet]
+    [HttpGet("{mail}")]
     public ActionResult<UserDto> GetUser(string mail)
     {
         var userToReturn = _usersDataStore.Users.FirstOrDefault(u => u.Mail == "mail");
@@ -26,5 +26,23 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
         }
 
         return Ok(userToReturn);
+    }
+
+    [HttpPost]
+    public ActionResult<UserDto> CreateUser(UserForCreationDto userForCreationDto)
+    {
+        var highestId = _usersDataStore.Users.Max(u => u.Id);
+
+        var newUser = new UserDto()
+        {
+            Id = ++highestId,
+            FirstName = userForCreationDto.FirstName,
+            LastName = userForCreationDto.LastName,
+            Mail = userForCreationDto.Mail
+        };
+
+        _usersDataStore.Users.Add(newUser);
+
+        return CreatedAtRoute("GetUserById", new { id = newUser.Id }, newUser);
     }
 }

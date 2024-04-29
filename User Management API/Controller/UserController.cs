@@ -61,4 +61,17 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{userId}")]
+    public ActionResult DeleteUser(int userId)
+    {
+        var user = _usersDataStore.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _usersDataStore.Users.Remove(user);
+        return NoContent();
+    }
 }

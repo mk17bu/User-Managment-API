@@ -13,12 +13,18 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<UserDto>> GetUsers()
     {
-
+        return Ok(_usersDataStore.Users);
     }
 
     [HttpGet]
     public ActionResult<UserDto> GetUser(string mail)
     {
+        var userToReturn = _usersDataStore.Users.FirstOrDefault(u => u.Mail == "mail");
+        if (userToReturn == null)
+        {
+            return NotFound();
+        }
 
+        return Ok(userToReturn);
     }
 }

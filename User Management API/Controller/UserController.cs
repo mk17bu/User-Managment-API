@@ -29,20 +29,36 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<UserDto> CreateUser(UserForCreationDto userForCreationDto)
+    public ActionResult<UserDto> CreateUser(UserForCreationDto userForCreation)
     {
         var highestId = _usersDataStore.Users.Max(u => u.Id);
 
         var newUser = new UserDto()
         {
             Id = ++highestId,
-            FirstName = userForCreationDto.FirstName,
-            LastName = userForCreationDto.LastName,
-            Mail = userForCreationDto.Mail
+            FirstName = userForCreation.FirstName,
+            LastName = userForCreation.LastName,
+            Mail = userForCreation.Mail
         };
 
         _usersDataStore.Users.Add(newUser);
 
         return CreatedAtRoute("GetUserById", new { id = newUser.Id }, newUser);
+    }
+
+    [HttpPut("{userId}")]
+    public ActionResult UpdateUser(int userId, UserForUpdateDto userForUpdate)
+    {
+        var user = _usersDataStore.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.FirstName = userForUpdate.FirstName;
+        user.LastName = userForUpdate.LastName;
+        user.Mail = userForUpdate.Mail;
+
+        return NoContent();
     }
 }

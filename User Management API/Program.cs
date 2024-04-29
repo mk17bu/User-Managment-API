@@ -1,0 +1,33 @@
+using User_Management_API;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers(options =>
+{
+    options.ReturnHttpNotAcceptable = true;
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<UsersDataStore>();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+app.Run();

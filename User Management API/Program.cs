@@ -1,6 +1,10 @@
-using User_Management_API;
+using Microsoft.EntityFrameworkCore;
+using User_Management_API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers(options =>
 {
@@ -9,7 +13,6 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<UsersDataStore>();
 
 var app = builder.Build();
 

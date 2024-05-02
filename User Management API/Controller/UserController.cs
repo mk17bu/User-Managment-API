@@ -1,25 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using User_Management_API.Data;
 using User_Management_API.Models;
 
 namespace User_Management_API.Controller;
 
 [ApiController]
 [Route("api/users")]
-public class UserController(UsersDataStore usersDataStore) : ControllerBase
+public class UserController : ControllerBase
 {
-    private readonly UsersDataStore _usersDataStore =
-        usersDataStore ?? throw new ArgumentNullException(nameof(usersDataStore));
+    private readonly ApplicationDbContext _context;
+
+    public UserController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
 
     [HttpGet]
     public ActionResult<IEnumerable<UserDto>> GetUsers()
     {
-        return Ok(_usersDataStore.Users);
+        return Ok(_context.Users);
     }
 
     [HttpGet("{mail}")]
     public ActionResult<UserDto> GetUser(string mail)
     {
-        var userToReturn = _usersDataStore.Users.FirstOrDefault(u => u.Mail == "mail");
+        var userToReturn = _context.Users.FirstOrDefault(u => u.Mail == "mail");
         if (userToReturn == null)
         {
             return NotFound();
@@ -31,7 +36,7 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
     [HttpPost]
     public ActionResult<UserDto> CreateUser(UserForCreationDto userForCreation)
     {
-        var highestId = _usersDataStore.Users.Max(u => u.Id);
+        var highestId = _context.Users.Max(u => u.Id);
 
         var newUser = new UserDto()
         {
@@ -41,7 +46,7 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
             Mail = userForCreation.Mail
         };
 
-        _usersDataStore.Users.Add(newUser);
+        _context.Users.Add(newUser);
 
         return CreatedAtRoute("GetUserById", new { id = newUser.Id }, newUser);
     }
@@ -49,7 +54,7 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
     [HttpPut("{userId}")]
     public ActionResult UpdateUser(int userId, UserForUpdateDto userForUpdate)
     {
-        var user = _usersDataStore.Users.FirstOrDefault(u => u.Id == userId);
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
         if (user == null)
         {
             return NotFound();
@@ -65,13 +70,13 @@ public class UserController(UsersDataStore usersDataStore) : ControllerBase
     [HttpDelete("{userId}")]
     public ActionResult DeleteUser(int userId)
     {
-        var user = _usersDataStore.Users.FirstOrDefault(u => u.Id == userId);
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
         if (user == null)
         {
             return NotFound();
         }
 
-        _usersDataStore.Users.Remove(user);
+        _context.Users.Remove(user);
         return NoContent();
     }
 }

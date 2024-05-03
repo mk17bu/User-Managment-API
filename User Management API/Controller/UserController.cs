@@ -18,7 +18,8 @@ public class UserController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<User>> GetUsers()
     {
-        return Ok(_context.Users);
+        var users = _context.Users;
+        return Ok(users);
     }
 
     [HttpGet("{mail}")]
@@ -43,7 +44,8 @@ public class UserController : ControllerBase
             Id = ++highestId,
             FirstName = userForCreation.FirstName,
             LastName = userForCreation.LastName,
-            Mail = userForCreation.Mail
+            Mail = userForCreation.Mail,
+            Roles = userForCreation.Roles
         };
 
         _context.Users.Add(newUser);
@@ -63,6 +65,7 @@ public class UserController : ControllerBase
         user.FirstName = userForUpdate.FirstName;
         user.LastName = userForUpdate.LastName;
         user.Mail = userForUpdate.Mail;
+        user.Roles = userForUpdate.Roles;
 
         return NoContent();
     }

@@ -24,7 +24,7 @@ public class UserController : ControllerBase
     [HttpGet("{mail}")]
     public ActionResult<UserDto> GetUser(string mail)
     {
-        var userToReturn = _context.Users.FirstOrDefault(u => u.Mail == "mail");
+        var userToReturn = _context.Users.FirstOrDefault(u => u.Mail == mail);
         if (userToReturn == null)
         {
             return NotFound();

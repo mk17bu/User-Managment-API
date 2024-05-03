@@ -16,13 +16,13 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<UserDto>> GetUsers()
+    public ActionResult<IEnumerable<User>> GetUsers()
     {
         return Ok(_context.Users);
     }
 
     [HttpGet("{mail}")]
-    public ActionResult<UserDto> GetUser(string mail)
+    public ActionResult<User> GetUser(string mail)
     {
         var userToReturn = _context.Users.FirstOrDefault(u => u.Mail == mail);
         if (userToReturn == null)
@@ -34,11 +34,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<UserDto> CreateUser(UserForCreationDto userForCreation)
+    public ActionResult<User> CreateUser(UserForCreation userForCreation)
     {
         var highestId = _context.Users.Max(u => u.Id);
 
-        var newUser = new UserDto()
+        var newUser = new User()
         {
             Id = ++highestId,
             FirstName = userForCreation.FirstName,
@@ -52,7 +52,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{userId}")]
-    public ActionResult UpdateUser(int userId, UserForUpdateDto userForUpdate)
+    public ActionResult UpdateUser(int userId, UserForUpdate userForUpdate)
     {
         var user = _context.Users.FirstOrDefault(u => u.Id == userId);
         if (user == null)

@@ -2,7 +2,7 @@
 
 namespace User_Management_API.Models;
 
-public class UserForUpdateDto
+public class UserForCreation
 {
     [Required(ErrorMessage = "You have to complete all fields")]
     [MaxLength(20)]

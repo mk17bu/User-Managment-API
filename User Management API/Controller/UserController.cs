@@ -1,85 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using User_Management_API.Data;
 using User_Management_API.Models;
+using User_Management_API.Services;
 
 namespace User_Management_API.Controller;
 
 [ApiController]
 [Route("api/users")]
-public class UserController : ControllerBase
+public class UserController(UserServices userService) : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-
-    public UserController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     [HttpGet]
-    public ActionResult<IEnumerable<User>> GetUsers()
+    public IActionResult GetAllUsers()
     {
-        var users = _context.Users;
+        var users = userService.GetAllUsers();
         return Ok(users);
     }
 
-    [HttpGet("{mail}")]
-    public ActionResult<User> GetUser(string mail)
+    [HttpGet("{id}")]
+    public IActionResult GetUserById(int id)
     {
-        var userToReturn = _context.Users.FirstOrDefault(u => u.Mail == mail);
-        if (userToReturn == null)
+        var user = userService.GetUserById(id);
+        if (user == null)
         {
             return NotFound();
         }
 
-        return Ok(userToReturn);
+        return Ok(user);
     }
 
     [HttpPost]
     public ActionResult<User> CreateUser(UserForCreation userForCreation)
     {
-        var highestId = _context.Users.Max(u => u.Id);
-
-        var newUser = new User()
-        {
-            Id = ++highestId,
-            FirstName = userForCreation.FirstName,
-            LastName = userForCreation.LastName,
-            Mail = userForCreation.Mail,
-            Roles = userForCreation.Roles
-        };
-
-        _context.Users.Add(newUser);
-
-        return CreatedAtRoute("GetUserById", new { id = newUser.Id }, newUser);
+        var newUser = userService.CreateUser(userForCreation);
+        return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
     }
 
     [HttpPut("{userId}")]
     public ActionResult UpdateUser(int userId, UserForUpdate userForUpdate)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        user.FirstName = userForUpdate.FirstName;
-        user.LastName = userForUpdate.LastName;
-        user.Mail = userForUpdate.Mail;
-        user.Roles = userForUpdate.Roles;
-
+        userService.UpdateUser(userId, userForUpdate);
         return NoContent();
     }
 
-    [HttpDelete("{userId}")]
-    public ActionResult DeleteUser(int userId)
+    [HttpDelete("{id}")]
+    public IActionResult DeleteUser(int id)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        _context.Users.Remove(user);
+        userService.DeleteUser(id);
         return NoContent();
     }
 }

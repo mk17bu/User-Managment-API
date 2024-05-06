@@ -8,4 +8,12 @@ public class User
     public string Mail { get; set; }
 
     public ICollection<Role> Roles { get; set; } = new List<Role>();
+    
+    public void UpdateUser(string firstName, string lastName, string mail, ICollection<Role> roles)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Mail = mail;
+        Roles = roles;
+    }
 }

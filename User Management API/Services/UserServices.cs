@@ -39,10 +39,7 @@ public class UserServices(ApplicationDbContext context)
             throw new ArgumentException("User not found");
         }
 
-        existingUser.FirstName = userForUpdate.FirstName;
-        existingUser.LastName = userForUpdate.LastName;
-        existingUser.Mail = userForUpdate.Mail;
-        existingUser.Roles = userForUpdate.Roles;
+        existingUser.UpdateUser(userForUpdate.FirstName, userForUpdate.LastName, userForUpdate.Mail, userForUpdate.Roles);
 
         context.SaveChanges();
 

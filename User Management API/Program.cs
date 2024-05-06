@@ -12,7 +12,7 @@ builder.Services.AddControllers(options =>
     options.ReturnHttpNotAcceptable = true;
 });
 
-builder.Services.AddSingleton<UserServices>();
+builder.Services.AddScoped<UserServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

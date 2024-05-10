@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using User_Management_API.Models;
+using User_Management_API.Entities;
 using User_Management_API.Services;
 
-namespace User_Management_API.Controller;
+namespace User_Management_API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UsersController(UserManagmentRepository userManagmentRepository) : ControllerBase
+public class UsersController(UserManagementRepository userManagementRepository) : ControllerBase
 {
     [HttpGet]
     public IActionResult GetAllUsers()
     {
-        var users = userManagmentRepository.GetAllUsers();
+        var users = userManagementRepository.GetAllUsers();
         return Ok(users);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetUserById(int id)
     {
-        var user = userManagmentRepository.GetUserById(id);
+        var user = userManagementRepository.GetUserById(id);
         if (user == null)
         {
             return NotFound();
@@ -30,21 +30,21 @@ public class UsersController(UserManagmentRepository userManagmentRepository) : 
     [HttpPost]
     public ActionResult<User> CreateUser(UserForCreation userForCreation)
     {
-        var newUser = userManagmentRepository.CreateUser(userForCreation);
+        var newUser = userManagementRepository.CreateUser(userForCreation);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
     }
 
     [HttpPut("{userId}")]
     public ActionResult UpdateUser(int userId, UserForUpdate userForUpdate)
     {
-        userManagmentRepository.UpdateUser(userId, userForUpdate);
+        userManagementRepository.UpdateUser(userId, userForUpdate);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public IActionResult DeleteUser(int id)
     {
-        userManagmentRepository.DeleteUser(id);
+        userManagementRepository.DeleteUser(id);
         return NoContent();
     }
 }

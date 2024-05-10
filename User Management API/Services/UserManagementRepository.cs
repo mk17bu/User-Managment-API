@@ -1,9 +1,9 @@
-﻿using User_Management_API.Data;
-using User_Management_API.Models;
+﻿using User_Management_API.DbContexts;
+using User_Management_API.Entities;
 
 namespace User_Management_API.Services;
 
-public class UserManagmentRepository(UserManagmentContext context)
+public class UserManagementRepository(UserManagementContext context)
 {
     public List<User> GetAllUsers()
     {

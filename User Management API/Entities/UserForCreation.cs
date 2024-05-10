@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace User_Management_API.Models;
+namespace User_Management_API.Entities;
 
 public class UserForCreation
 {

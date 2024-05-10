@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using User_Management_API.Models;
+using User_Management_API.Entities;
 
-namespace User_Management_API.Data;
+namespace User_Management_API.DbContexts;
 
-public class UserManagmentContext(DbContextOptions<UserManagmentContext> options) : DbContext(options)
+public class UserManagementContext(DbContextOptions<UserManagementContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; init; }
 

@@ -1,18 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using User_Management_API.Data;
+using User_Management_API.DbContexts;
 using User_Management_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<UserManagmentContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<UserManagementContext>(dbContextOptions =>
+    dbContextOptions.UseSqlServer(builder.Configuration["ConnectionStrings:UserManagementDBConnectionString"]));
 
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
 });
 
-builder.Services.AddScoped<UserManagmentRepository>();
+builder.Services.AddScoped<UserManagementRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

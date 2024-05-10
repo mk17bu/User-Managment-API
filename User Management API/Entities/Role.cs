@@ -1,4 +1,4 @@
-﻿namespace User_Management_API.Models;
+﻿namespace User_Management_API.Entities;
 
 public enum Role
 {

@@ -4,15 +4,15 @@ using User_Management_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<UserManagementContext>(dbContextOptions =>
-    dbContextOptions.UseSqlServer(builder.Configuration["ConnectionStrings:UserManagementDBConnectionString"]));
-
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
 });
 
-builder.Services.AddScoped<UserManagementRepository>();
+builder.Services.AddScoped<IUserManagmentRepository, UserManagementRepository>();
+
+builder.Services.AddDbContext<UserManagementContext>(dbContextOptions =>
+    dbContextOptions.UseSqlServer(builder.Configuration["ConnectionStrings:UserManagementDBConnectionString"]));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

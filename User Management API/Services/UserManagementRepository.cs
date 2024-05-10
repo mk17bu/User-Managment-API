@@ -1,21 +1,24 @@
-﻿using User_Management_API.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using User_Management_API.DbContexts;
 using User_Management_API.Entities;
 
 namespace User_Management_API.Services;
 
-public class UserManagementRepository(UserManagementContext context)
+public class UserManagementRepository(UserManagementContext context) : IUserManagmentRepository
 {
-    public List<User> GetAllUsers()
+    private readonly UserManagementContext _context = context ?? throw new ArgumentNullException(nameof(context));
+    
+    public async Task<IEnumerable<User>> GetUsersAsync()
     {
-        return context.Users.ToList();
+        return await _context.Users.OrderBy(u => u.FirstName).ToListAsync();
     }
 
-    public User? GetUserById(int userId)
+    public async Task<User?> GetUserByIdAsync(int userId)
     {
-        return context.Users.FirstOrDefault(u => u.Id == userId);
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
-
-    public User CreateUser(UserForCreation userForCreation)
+    
+    public async Task<User> CreateUserAsync(UserForCreation userForCreation)
     {
         var newUser = new User
         {
@@ -25,32 +28,32 @@ public class UserManagementRepository(UserManagementContext context)
             Roles = userForCreation.Roles
         };
 
-        context.Users.Add(newUser);
-        context.SaveChanges();
+        _context.Users.Add(newUser);
+        await _context.SaveChangesAsync();
 
         return newUser;
     }
 
-    public User UpdateUser(int userId, UserForUpdate userForUpdate)
+    public async Task<User> UpdateUserAsync(int userId, UserForUpdate userForUpdate)
     {
-        var existingUser = context.Users.Find(userId);
+        var existingUser = await _context.Users.FindAsync(userId);
         if (existingUser == null)
         {
             throw new ArgumentException("User not found");
         }
 
         existingUser.UpdateUser(userForUpdate.FirstName, userForUpdate.LastName, userForUpdate.Mail, userForUpdate.Roles);
-
-        context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return existingUser;
     }
 
-    public void DeleteUser(int userId)
+    public async Task DeleteUserAsync(int userId)
     {
-        var user = context.Users.Find(userId);
+        var user = await _context.Users.FindAsync(userId);
         if (user == null) return;
-        context.Users.Remove(user);
-        context.SaveChanges();
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
     }
 }

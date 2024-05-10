@@ -9,16 +9,17 @@ namespace User_Management_API.Controllers;
 public class UsersController(UserManagementRepository userManagementRepository) : ControllerBase
 {
     [HttpGet]
-    public IActionResult GetAllUsers()
+    public async Task<IActionResult> GetUsers()
     {
-        var users = userManagementRepository.GetAllUsers();
+        var users = await userManagementRepository.GetUsersAsync();
         return Ok(users);
     }
 
-    [HttpGet("{id}")]
-    public IActionResult GetUserById(int id)
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetUserById(int userId)
     {
-        var user = userManagementRepository.GetUserById(id);
+        var user = await userManagementRepository.GetUserByIdAsync(userId);
+
         if (user == null)
         {
             return NotFound();
@@ -28,23 +29,23 @@ public class UsersController(UserManagementRepository userManagementRepository) 
     }
 
     [HttpPost]
-    public ActionResult<User> CreateUser(UserForCreation userForCreation)
+    public async Task<ActionResult<User>> CreateUser(UserForCreation userForCreation)
     {
-        var newUser = userManagementRepository.CreateUser(userForCreation);
+        var newUser = await userManagementRepository.CreateUserAsync(userForCreation);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
     }
-
+    
     [HttpPut("{userId}")]
-    public ActionResult UpdateUser(int userId, UserForUpdate userForUpdate)
+    public async Task<ActionResult> UpdateUser(int userId, UserForUpdate userForUpdate)
     {
-        userManagementRepository.UpdateUser(userId, userForUpdate);
+        await userManagementRepository.UpdateUserAsync(userId, userForUpdate);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteUser(int id)
+    public async Task<IActionResult> DeleteUser(int id)
     {
-        userManagementRepository.DeleteUser(id);
+        await userManagementRepository.DeleteUserAsync(id);
         return NoContent();
     }
 }

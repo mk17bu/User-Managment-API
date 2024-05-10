@@ -25,7 +25,7 @@ public class UserManagementRepository(UserManagementContext context) : IUserMana
             FirstName = userForCreation.FirstName,
             LastName = userForCreation.LastName,
             Mail = userForCreation.Mail,
-            Roles = userForCreation.Roles
+            Role = userForCreation.Role
         };
 
         _context.Users.Add(newUser);
@@ -42,7 +42,7 @@ public class UserManagementRepository(UserManagementContext context) : IUserMana
             throw new ArgumentException("User not found");
         }
 
-        existingUser.UpdateUser(userForUpdate.FirstName, userForUpdate.LastName, userForUpdate.Mail, userForUpdate.Roles);
+        existingUser.UpdateUser(userForUpdate.FirstName, userForUpdate.LastName, userForUpdate.Mail, userForUpdate.Role);
         await _context.SaveChangesAsync();
 
         return existingUser;

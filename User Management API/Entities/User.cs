@@ -7,13 +7,13 @@ public class User
     public string LastName { get; set; }
     public string Mail { get; set; }
 
-    public ICollection<Role> Roles { get; set; } = new List<Role>();
+    public Role Role { get; set; }
     
-    public void UpdateUser(string firstName, string lastName, string mail, ICollection<Role> roles)
+    public void UpdateUser(string firstName, string lastName, string mail, Role role)
     {
         FirstName = firstName;
         LastName = lastName;
         Mail = mail;
-        Roles = roles;
+        Role = role;
     }
 }

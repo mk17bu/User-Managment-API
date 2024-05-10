@@ -1,22 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using User_Management_API.Entities;
 
-namespace User_Management_API.DbContexts;
-
-public class UserManagementContext(DbContextOptions<UserManagementContext> options) : DbContext(options)
+namespace User_Management_API.DbContexts
 {
-    public DbSet<User> Users { get; init; }
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public class UserManagementContext(DbContextOptions<UserManagementContext> options) : DbContext(options)
     {
-        modelBuilder.Entity<User>().HasData(
-            new User { Id = 1, FirstName = "Marc-André", LastName = "ter Stegen", Mail = "tersteguen@fcb.com", Roles = new List<Role> { Role.Goalkeeper}},
-            new User { Id = 2, FirstName = "Andreas", LastName = "Christensen", Mail = "andreaschristensen@fcb.com", Roles = new List<Role> { Role.CenterBack, Role.DefensiveMidfielder}},
-            new User { Id = 3, FirstName = "Jules", LastName = "Koundé", Mail = "juleskounde@fcb.com", Roles = new List<Role> { Role.CenterBack, Role.FullBack}},
-            new User { Id = 4, FirstName = "Joshua", LastName = "Kimmich", Mail = "joshuakimmich@fcb.com", Roles = new List<Role> { Role.DefensiveMidfielder, Role.FullBack}},
-            new User { Id = 5, FirstName = "Robert", LastName = "Lewandoski", Mail = "robertlewandoski@fcb.com", Roles = new List<Role> { Role.Striker}}
-        );
-        
-        base.OnModelCreating(modelBuilder);
+        public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, FirstName = "Marc-André", LastName = "ter Stegen", Mail = "tersteguen@fcb.com", Role = Role.Goalkeeper},
+                new User { Id = 2, FirstName = "Andreas", LastName = "Christensen", Mail = "andreaschristensen@fcb.com", Role = Role.CenterBack},
+                new User { Id = 3, FirstName = "Jules", LastName = "Koundé", Mail = "juleskounde@fcb.com", Role = Role.FullBack},
+                new User { Id = 4, FirstName = "Joshua", LastName = "Kimmich", Mail = "joshuakimmich@fcb.com", Role = Role.CentralMidfielder},
+                new User { Id = 5, FirstName = "Robert", LastName = "Lewandoski", Mail = "robertlewandoski@fcb.com", Role = Role.Striker}
+            );
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -12,5 +12,5 @@ public class UserForUpdate
     [MaxLength(40)]
     public string Mail { get; set; }
 
-    public ICollection<Role> Roles { get; set; } = new List<Role>();
+    public Role Role { get; set; }
 }

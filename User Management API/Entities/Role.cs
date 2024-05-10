@@ -2,5 +2,5 @@
 
 public enum Role
 {
-    Goalkeeper, CenterBack, FullBack, DefensiveMidfielder, CentralMidfielder, AttackingMidfielder, Striker, Winger
+    Goalkeeper, CenterBack, FullBack, CentralMidfielder, Striker
 }

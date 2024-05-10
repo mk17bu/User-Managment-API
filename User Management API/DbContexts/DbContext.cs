@@ -42,6 +42,29 @@ namespace User_Management_API.DbContexts
                 entity.Property(p => p.Content)
                     .IsRequired()
                     .HasMaxLength(500);
+
+                entity.HasOne(c => c.User)
+                    .WithMany()
+                    .HasForeignKey(c => c.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(c => c.Post)
+                    .WithMany()
+                    .HasForeignKey(c => c.PostId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            
+            modelBuilder.Entity<Reaction>(entity =>
+            {
+                entity.HasOne(r => r.User)
+                    .WithMany()
+                    .HasForeignKey(r => r.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(r => r.Post)
+                    .WithMany()
+                    .HasForeignKey(r => r.PostId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
             
             modelBuilder.Entity<User>().HasData(
@@ -121,6 +144,7 @@ namespace User_Management_API.DbContexts
                     UserId = 5
                 }
             );
+            
             base.OnModelCreating(modelBuilder);
         }
     }

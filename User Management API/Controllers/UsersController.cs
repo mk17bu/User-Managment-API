@@ -7,21 +7,21 @@ namespace User_Management_API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UsersController(IUserRepository userManagementRepository) : ControllerBase
+public class UsersController(IUserRepository userRepository) : ControllerBase
 {
-    private readonly IUserRepository _userManagementRepository = userManagementRepository ?? throw new ArgumentNullException(nameof(userManagementRepository));
+    private readonly IUserRepository _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
-        var users = await _userManagementRepository.GetUsersAsync();
+        var users = await _userRepository.GetUsersAsync();
         return Ok(users);
     }
 
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserById(int userId)
     {
-        var user = await _userManagementRepository.GetUserByIdAsync(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
         {
             return NotFound();
@@ -33,21 +33,21 @@ public class UsersController(IUserRepository userManagementRepository) : Control
     [HttpPost]
     public async Task<ActionResult<User>> CreateUser(UserForCreationDto userForCreationDto)
     {
-        var newUser = await _userManagementRepository.CreateUserAsync(userForCreationDto);
+        var newUser = await _userRepository.CreateUserAsync(userForCreationDto);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
     }
     
     [HttpPut("{userId}")]
     public async Task<ActionResult> UpdateUser(int userId, UserForUpdateDto userForUpdateDto)
     {
-        await _userManagementRepository.UpdateUserAsync(userId, userForUpdateDto);
+        await _userRepository.UpdateUserAsync(userId, userForUpdateDto);
         return NoContent();
     }
 
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteUser(int userId)
     {
-        await _userManagementRepository.DeleteUserAsync(userId);
+        await _userRepository.DeleteUserAsync(userId);
         return NoContent();
     }
 }

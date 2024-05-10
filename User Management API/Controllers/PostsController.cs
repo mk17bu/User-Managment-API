@@ -11,6 +11,7 @@ public class PostsController(IPostRepository postRepository) : ControllerBase
 {
     private readonly IPostRepository _postRepository = postRepository ?? throw new ArgumentNullException(nameof(postRepository));
     
+    [HttpGet]
     public async Task<IActionResult> GetPosts()
     {
         var posts = await _postRepository.GetPostsAsync();

@@ -12,4 +12,11 @@ public class Post
 
     public ICollection<Reaction> Reactions { get; set; }
     public ICollection<Comment> Comments { get; set; }
+    
+    public void UpdatePost(string title, string content)
+    {
+        Title = title;
+        Content = content;
+        Date = DateTime.Now;
+    }
 }

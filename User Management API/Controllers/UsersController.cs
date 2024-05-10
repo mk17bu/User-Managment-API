@@ -7,9 +7,9 @@ namespace User_Management_API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UsersController(IUserManagmentRepository userManagementRepository) : ControllerBase
+public class UsersController(IUserRepository userManagementRepository) : ControllerBase
 {
-    private readonly IUserManagmentRepository _userManagementRepository = userManagementRepository ?? throw new ArgumentNullException(nameof(userManagementRepository));
+    private readonly IUserRepository _userManagementRepository = userManagementRepository ?? throw new ArgumentNullException(nameof(userManagementRepository));
     
     [HttpGet]
     public async Task<IActionResult> GetUsers()

@@ -3,7 +3,7 @@ using User_Management_API.Entities;
 
 namespace User_Management_API.DbContexts
 {
-    public class UserManagementContext(DbContextOptions<UserManagementContext> options) : DbContext(options)
+    public class DbContext(DbContextOptions<DbContext> options) : Microsoft.EntityFrameworkCore.DbContext(options)
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }

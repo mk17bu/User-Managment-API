@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using User_Management_API.DbContexts;
 using User_Management_API.Entities;
+using User_Management_API.Models;
 
 namespace User_Management_API.Services;
 
@@ -18,13 +19,13 @@ public class UserManagementRepository(UserManagementContext context) : IUserMana
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
     
-    public async Task<User> CreateUserAsync(UserForCreation userForCreation)
+    public async Task<User> CreateUserAsync(UserForCreationDto userForCreationDto)
     {
         var newUser = new User
         {
-            FirstName = userForCreation.FirstName,
-            LastName = userForCreation.LastName,
-            Mail = userForCreation.Mail,
+            FirstName = userForCreationDto.FirstName,
+            LastName = userForCreationDto.LastName,
+            Mail = userForCreationDto.Mail,
         };
 
         _context.Users.Add(newUser);
@@ -33,7 +34,7 @@ public class UserManagementRepository(UserManagementContext context) : IUserMana
         return newUser;
     }
 
-    public async Task<User> UpdateUserAsync(int userId, UserForUpdate userForUpdate)
+    public async Task<User> UpdateUserAsync(int userId, UserForUpdateDto userForUpdateDto)
     {
         var existingUser = await _context.Users.FindAsync(userId);
         if (existingUser == null)
@@ -41,7 +42,7 @@ public class UserManagementRepository(UserManagementContext context) : IUserMana
             throw new ArgumentException("User not found");
         }
 
-        existingUser.UpdateUser(userForUpdate.FirstName, userForUpdate.LastName, userForUpdate.Mail);
+        existingUser.UpdateUser(userForUpdateDto.FirstName, userForUpdateDto.LastName, userForUpdateDto.Mail);
         await _context.SaveChangesAsync();
 
         return existingUser;

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace User_Management_API.Entities;
+namespace User_Management_API.Models;
 
-public class UserForUpdate
+public class UserForCreationDto
 {
     [Required(ErrorMessage = "You have to complete all fields")]
     [MaxLength(20)]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using User_Management_API.Entities;
+using User_Management_API.Models;
 using User_Management_API.Services;
 
 namespace User_Management_API.Controllers;
@@ -30,16 +31,16 @@ public class UsersController(IUserManagmentRepository userManagementRepository) 
     }
 
     [HttpPost]
-    public async Task<ActionResult<User>> CreateUser(UserForCreation userForCreation)
+    public async Task<ActionResult<User>> CreateUser(UserForCreationDto userForCreationDto)
     {
-        var newUser = await _userManagementRepository.CreateUserAsync(userForCreation);
+        var newUser = await _userManagementRepository.CreateUserAsync(userForCreationDto);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
     }
     
     [HttpPut("{userId}")]
-    public async Task<ActionResult> UpdateUser(int userId, UserForUpdate userForUpdate)
+    public async Task<ActionResult> UpdateUser(int userId, UserForUpdateDto userForUpdateDto)
     {
-        await _userManagementRepository.UpdateUserAsync(userId, userForUpdate);
+        await _userManagementRepository.UpdateUserAsync(userId, userForUpdateDto);
         return NoContent();
     }
 

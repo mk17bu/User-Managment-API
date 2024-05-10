@@ -6,14 +6,11 @@ public class User
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Mail { get; set; }
-
-    public Role Role { get; set; }
     
-    public void UpdateUser(string firstName, string lastName, string mail, Role role)
+    public void UpdateUser(string firstName, string lastName, string mail)
     {
         FirstName = firstName;
         LastName = lastName;
         Mail = mail;
-        Role = role;
     }
 }

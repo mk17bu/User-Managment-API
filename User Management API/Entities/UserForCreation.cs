@@ -11,6 +11,4 @@ public class UserForCreation
     public string LastName { get; set; }
     [MaxLength(40)]
     public string Mail { get; set; }
-
-    public Role Role { get; set; }
 }

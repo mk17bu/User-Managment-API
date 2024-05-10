@@ -3,7 +3,7 @@ using User_Management_API.Models;
 
 namespace User_Management_API.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class UserManagmentContext(DbContextOptions<UserManagmentContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; init; }
 

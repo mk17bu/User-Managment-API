@@ -3,7 +3,7 @@ using User_Management_API.Models;
 
 namespace User_Management_API.Services;
 
-public class UserServices(ApplicationDbContext context)
+public class UserManagmentRepository(UserManagmentContext context)
 {
     public List<User> GetAllUsers()
     {

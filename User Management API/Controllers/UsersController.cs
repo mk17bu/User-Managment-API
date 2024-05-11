@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using User_Management_API.Entities;
 using User_Management_API.Models;
 using User_Management_API.Services;
@@ -6,6 +7,7 @@ using User_Management_API.Services;
 namespace User_Management_API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/users")]
 public class UsersController(IUserRepository userRepository) : ControllerBase
 {

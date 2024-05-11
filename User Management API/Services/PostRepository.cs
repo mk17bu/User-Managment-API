@@ -11,12 +11,21 @@ public class PostRepository(DbContext context) : IPostRepository
     
     public async Task<IEnumerable<Post>> GetPostsAsync()
     {
-        return await _context.Posts.OrderBy(p => p.Date).ToListAsync();
+        return await _context.Posts
+            .Include(p => p.User)
+            .Include(p => p.Reactions)
+            .Include(p => p.Comments)
+            .OrderBy(p => p.Date)
+            .ToListAsync();
     }
     
     public async Task<Post?> GetPostByIdAsync(int postId)
     {
-        return await _context.Posts.FirstOrDefaultAsync(u => u.Id == postId);
+        return await _context.Posts
+            .Include(p => p.User)
+            .Include(p => p.Reactions)
+            .Include(p => p.Comments)
+            .FirstOrDefaultAsync(u => u.Id == postId);
     }
     
     public async Task<Post> CreatePostAsync(PostForCreationDto postForCreationDto)

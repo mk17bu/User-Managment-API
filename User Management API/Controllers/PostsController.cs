@@ -9,9 +9,10 @@ namespace User_Management_API.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/posts")]
-public class PostsController(IPostRepository postRepository) : ControllerBase
+public class PostsController(IPostRepository postRepository, ILogger<PostsController> logger) : ControllerBase
 {
     private readonly IPostRepository _postRepository = postRepository ?? throw new ArgumentNullException(nameof(postRepository));
+    private readonly ILogger<PostsController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     
     [HttpGet]
     public async Task<IActionResult> GetPosts()
@@ -26,6 +27,7 @@ public class PostsController(IPostRepository postRepository) : ControllerBase
         var post = await _postRepository.GetPostByIdAsync(postId);
         if (post == null)
         {
+            _logger.LogInformation($"Post with ID: {postId} can't be found.");
             return NotFound();
         }
 

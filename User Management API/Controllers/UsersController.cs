@@ -9,9 +9,10 @@ namespace User_Management_API.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/users")]
-public class UsersController(IUserRepository userRepository) : ControllerBase
+public class UsersController(IUserRepository userRepository, ILogger<UsersController> logger) : ControllerBase
 {
     private readonly IUserRepository _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+    private readonly ILogger<UsersController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     
     [HttpGet]
     public async Task<IActionResult> GetUsers()
@@ -26,6 +27,7 @@ public class UsersController(IUserRepository userRepository) : ControllerBase
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
         {
+            _logger.LogInformation($"User with ID: {userId} can't be found.");
             return NotFound();
         }
 

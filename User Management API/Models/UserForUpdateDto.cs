@@ -2,7 +2,7 @@
 
 namespace User_Management_API.Models;
 
-public class UserForCreation
+public class UserForUpdateDto
 {
     [Required(ErrorMessage = "You have to complete all fields")]
     [MaxLength(20)]
@@ -11,6 +11,4 @@ public class UserForCreation
     public string LastName { get; set; }
     [MaxLength(40)]
     public string Mail { get; set; }
-
-    public ICollection<Role> Roles { get; set; } = new List<Role>();
 }

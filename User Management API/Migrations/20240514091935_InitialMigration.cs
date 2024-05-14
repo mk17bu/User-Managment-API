@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace User_Management_API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +51,7 @@ namespace User_Management_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -63,15 +63,15 @@ namespace User_Management_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Posts_PostId",
+                        name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Users_UserId",
+                        name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -79,7 +79,7 @@ namespace User_Management_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reaction",
+                name: "Reactions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -90,15 +90,15 @@ namespace User_Management_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reaction", x => x.Id);
+                    table.PrimaryKey("PK_Reactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reaction_Posts_PostId",
+                        name: "FK_Reactions_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reaction_Users_UserId",
+                        name: "FK_Reactions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -122,22 +122,22 @@ namespace User_Management_API.Migrations
                 columns: new[] { "Id", "Content", "Date", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Joshua Kimmich has officially joined FC Barcelona.", new DateTime(2024, 5, 14, 9, 0, 32, 978, DateTimeKind.Local).AddTicks(2815), "Welcome Joshua Kimmich!", 1 },
-                    { 2, "I'm very happy to be here and I'll try my best to fit the team.", new DateTime(2024, 5, 14, 10, 0, 32, 978, DateTimeKind.Local).AddTicks(2868), "Hello team!", 4 }
+                    { 1, "Joshua Kimmich has officially joined FC Barcelona.", new DateTime(2024, 5, 14, 7, 19, 34, 683, DateTimeKind.Utc).AddTicks(770), "Welcome Joshua Kimmich!", 1 },
+                    { 2, "I'm very happy to be here and I'll try my best to fit the team.", new DateTime(2024, 5, 14, 8, 19, 34, 683, DateTimeKind.Utc).AddTicks(779), "Hello team!", 4 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Comment",
+                table: "Comments",
                 columns: new[] { "Id", "Content", "Date", "PostId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Nicee", new DateTime(2024, 5, 14, 9, 0, 32, 978, DateTimeKind.Local).AddTicks(2889), 1, 2 },
-                    { 2, "I'll teach you how to defend!", new DateTime(2024, 5, 14, 10, 0, 32, 978, DateTimeKind.Local).AddTicks(2892), 2, 3 },
-                    { 3, "Let's gooo!", new DateTime(2024, 5, 14, 11, 0, 32, 978, DateTimeKind.Local).AddTicks(2895), 2, 5 }
+                    { 1, "Nicee", new DateTime(2024, 5, 14, 7, 19, 34, 683, DateTimeKind.Utc).AddTicks(890), 1, 2 },
+                    { 2, "I'll teach you how to defend!", new DateTime(2024, 5, 14, 8, 19, 34, 683, DateTimeKind.Utc).AddTicks(892), 2, 3 },
+                    { 3, "Let's gooo!", new DateTime(2024, 5, 14, 9, 19, 34, 683, DateTimeKind.Utc).AddTicks(894), 2, 5 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Reaction",
+                table: "Reactions",
                 columns: new[] { "Id", "PostId", "Type", "UserId" },
                 values: new object[,]
                 {
@@ -147,13 +147,13 @@ namespace User_Management_API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_PostId",
-                table: "Comment",
+                name: "IX_Comments_PostId",
+                table: "Comments",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserId",
-                table: "Comment",
+                name: "IX_Comments_UserId",
+                table: "Comments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -162,13 +162,13 @@ namespace User_Management_API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reaction_PostId",
-                table: "Reaction",
+                name: "IX_Reactions_PostId",
+                table: "Reactions",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reaction_UserId",
-                table: "Reaction",
+                name: "IX_Reactions_UserId",
+                table: "Reactions",
                 column: "UserId");
         }
 
@@ -176,10 +176,10 @@ namespace User_Management_API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Reaction");
+                name: "Reactions");
 
             migrationBuilder.DropTable(
                 name: "Posts");

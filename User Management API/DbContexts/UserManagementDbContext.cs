@@ -7,8 +7,8 @@ namespace User_Management_API.DbContexts
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
-        //public DbSet<Reaction> Reactions { get; set; }
-        //public DbSet<Comment> Comments { get; set; }
+        public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace User_Management_API.DbContexts
                     UserId = 1,
                     Title = "Welcome Joshua Kimmich!", 
                     Content = "Joshua Kimmich has officially joined FC Barcelona.",
-                    Date = DateTime.Now.AddHours(-2),
+                    Date = DateTime.UtcNow.AddHours(-2),
                 },
                 new Post 
                 {
@@ -96,7 +96,7 @@ namespace User_Management_API.DbContexts
                     UserId = 4,
                     Title = "Hello team!",
                     Content = "I'm very happy to be here and I'll try my best to fit the team.",
-                    Date = DateTime.Now.AddHours(-1),
+                    Date = DateTime.UtcNow.AddHours(-1),
                 }
             );
             
@@ -107,7 +107,7 @@ namespace User_Management_API.DbContexts
                     UserId = 2,
                     PostId = 1,
                     Content = "Nicee",
-                    Date = DateTime.Now.AddHours(-2),
+                    Date = DateTime.UtcNow.AddHours(-2),
                 },
                 new Comment
                 {
@@ -115,7 +115,7 @@ namespace User_Management_API.DbContexts
                     UserId = 3,
                     PostId = 2,
                     Content = "I'll teach you how to defend!",
-                    Date = DateTime.Now.AddHours(-1),
+                    Date = DateTime.UtcNow.AddHours(-1),
                 },
                 new Comment
                 {
@@ -123,7 +123,7 @@ namespace User_Management_API.DbContexts
                     UserId = 5,
                     PostId = 2,
                     Content = "Let's gooo!",
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                 }
             );
             

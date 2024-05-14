@@ -12,8 +12,8 @@ using User_Management_API.DbContexts;
 namespace User_Management_API.Migrations
 {
     [DbContext(typeof(UserManagementDbContext))]
-    [Migration("20240514090033_Initial")]
-    partial class Initial
+    [Migration("20240514091935_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,14 +53,14 @@ namespace User_Management_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Content = "Nicee",
-                            Date = new DateTime(2024, 5, 14, 9, 0, 32, 978, DateTimeKind.Local).AddTicks(2889),
+                            Date = new DateTime(2024, 5, 14, 7, 19, 34, 683, DateTimeKind.Utc).AddTicks(890),
                             PostId = 1,
                             UserId = 2
                         },
@@ -68,7 +68,7 @@ namespace User_Management_API.Migrations
                         {
                             Id = 2,
                             Content = "I'll teach you how to defend!",
-                            Date = new DateTime(2024, 5, 14, 10, 0, 32, 978, DateTimeKind.Local).AddTicks(2892),
+                            Date = new DateTime(2024, 5, 14, 8, 19, 34, 683, DateTimeKind.Utc).AddTicks(892),
                             PostId = 2,
                             UserId = 3
                         },
@@ -76,7 +76,7 @@ namespace User_Management_API.Migrations
                         {
                             Id = 3,
                             Content = "Let's gooo!",
-                            Date = new DateTime(2024, 5, 14, 11, 0, 32, 978, DateTimeKind.Local).AddTicks(2895),
+                            Date = new DateTime(2024, 5, 14, 9, 19, 34, 683, DateTimeKind.Utc).AddTicks(894),
                             PostId = 2,
                             UserId = 5
                         });
@@ -117,7 +117,7 @@ namespace User_Management_API.Migrations
                         {
                             Id = 1,
                             Content = "Joshua Kimmich has officially joined FC Barcelona.",
-                            Date = new DateTime(2024, 5, 14, 9, 0, 32, 978, DateTimeKind.Local).AddTicks(2815),
+                            Date = new DateTime(2024, 5, 14, 7, 19, 34, 683, DateTimeKind.Utc).AddTicks(770),
                             Title = "Welcome Joshua Kimmich!",
                             UserId = 1
                         },
@@ -125,7 +125,7 @@ namespace User_Management_API.Migrations
                         {
                             Id = 2,
                             Content = "I'm very happy to be here and I'll try my best to fit the team.",
-                            Date = new DateTime(2024, 5, 14, 10, 0, 32, 978, DateTimeKind.Local).AddTicks(2868),
+                            Date = new DateTime(2024, 5, 14, 8, 19, 34, 683, DateTimeKind.Utc).AddTicks(779),
                             Title = "Hello team!",
                             UserId = 4
                         });
@@ -154,7 +154,7 @@ namespace User_Management_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reaction");
+                    b.ToTable("Reactions");
 
                     b.HasData(
                         new

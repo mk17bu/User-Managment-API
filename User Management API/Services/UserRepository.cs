@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using User_Management_API.DbContexts;
 using User_Management_API.Entities;
 using User_Management_API.Models;
-using DbContext = User_Management_API.DbContexts.DbContext;
 
 namespace User_Management_API.Services;
 
-public class UserRepository(DbContext context) : IUserRepository
+public class UserRepository(UserManagementDbContext context) : IUserRepository
 {
-    private readonly DbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly UserManagementDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
     
     public async Task<IEnumerable<User>> GetUsersAsync()
     {

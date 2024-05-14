@@ -8,7 +8,7 @@ using User_Management_API.Services;
 namespace User_Management_API.Controllers;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("api/v{version:apiVersion}/posts")]
 [ApiVersion(2)]
 public class PostsController(IPostRepository postRepository, ILogger<PostsController> logger) : ControllerBase

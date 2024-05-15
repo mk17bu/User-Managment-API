@@ -16,7 +16,7 @@ public class UsersController(IUserRepository userRepository, ILogger<UsersContro
 {
     private readonly IUserRepository _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     private readonly ILogger<UsersController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    
+
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
@@ -36,14 +36,14 @@ public class UsersController(IUserRepository userRepository, ILogger<UsersContro
 
         return Ok(user);
     }
-
+    
     [HttpPost]
     public async Task<ActionResult<User>> CreateUser(UserForCreationDto userForCreationDto)
     {
         var newUser = await _userRepository.CreateUserAsync(userForCreationDto);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
     }
-    
+
     [HttpPut("{userId}")]
     public async Task<ActionResult> UpdateUser(int userId, UserForUpdateDto userForUpdateDto)
     {

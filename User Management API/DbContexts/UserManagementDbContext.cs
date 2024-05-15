@@ -17,9 +17,8 @@ namespace User_Management_API.DbContexts
                 entity.Property(u => u.FirstName)
                     .IsRequired()
                     .HasMaxLength(20);
-
+                
                 entity.Property(u => u.LastName)
-                    .IsRequired()
                     .HasMaxLength(20);
 
                 entity.Property(u => u.Mail)
@@ -32,47 +31,19 @@ namespace User_Management_API.DbContexts
                 entity.Property(p => p.Title)
                     .IsRequired()
                     .HasMaxLength(40);
-
+                
                 entity.Property(p => p.Content)
                     .IsRequired()
                     .HasMaxLength(1000);
-
-                entity.HasOne(p => p.User)
-                    .WithMany(u => u.Posts)
-                    .HasForeignKey(p => p.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
-
+            
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.Property(p => p.Content)
                     .IsRequired()
                     .HasMaxLength(500);
-
-                entity.HasOne(c => c.User)
-                    .WithMany(u => u.Comments)
-                    .HasForeignKey(c => c.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(c => c.Post)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(c => c.PostId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
-
-            modelBuilder.Entity<Reaction>(entity =>
-            {
-                entity.HasOne(r => r.User)
-                    .WithMany(u => u.Reactions)
-                    .HasForeignKey(r => r.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(r => r.Post)
-                    .WithMany(p => p.Reactions)
-                    .HasForeignKey(r => r.PostId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
+            
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, FirstName = "Marc-André", LastName = "ter Stegen", Mail = "tersteguen@fcb.com"},
                 new User { Id = 2, FirstName = "Andreas", LastName = "Christensen", Mail = "andreaschristensen@fcb.com"},
@@ -85,18 +56,18 @@ namespace User_Management_API.DbContexts
                 new Post 
                 { 
                     Id = 1, 
-                    UserId = 1,
                     Title = "Welcome Joshua Kimmich!", 
                     Content = "Joshua Kimmich has officially joined FC Barcelona.",
-                    Date = DateTime.UtcNow.AddHours(-2),
+                    Date = DateTime.Now.AddHours(-2),
+                    UserId = 1 
                 },
                 new Post 
                 {
                     Id = 2, 
-                    UserId = 4,
                     Title = "Hello team!",
                     Content = "I'm very happy to be here and I'll try my best to fit the team.",
-                    Date = DateTime.UtcNow.AddHours(-1),
+                    Date = DateTime.Now.AddHours(-1),
+                    UserId = 4
                 }
             );
             
@@ -104,26 +75,26 @@ namespace User_Management_API.DbContexts
                 new Comment
                 {
                     Id = 1,
-                    UserId = 2,
                     PostId = 1,
                     Content = "Nicee",
-                    Date = DateTime.UtcNow.AddHours(-2),
+                    Date = DateTime.Now.AddHours(-2),
+                    UserId = 2
                 },
                 new Comment
                 {
                     Id = 2,
-                    UserId = 3,
                     PostId = 2,
                     Content = "I'll teach you how to defend!",
-                    Date = DateTime.UtcNow.AddHours(-1),
+                    Date = DateTime.Now.AddHours(-1),
+                    UserId = 3
                 },
                 new Comment
                 {
                     Id = 3,
-                    UserId = 5,
                     PostId = 2,
                     Content = "Let's gooo!",
-                    Date = DateTime.UtcNow,
+                    Date = DateTime.Now,
+                    UserId = 5
                 }
             );
             
@@ -131,26 +102,25 @@ namespace User_Management_API.DbContexts
                 new Reaction
                 {
                     Id = 1,
-                    UserId = 2,
                     PostId = 1,
                     Type = ReactionType.Like,
+                    UserId = 2
                 },
                 new Reaction
                 {
                     Id = 2,
-                    UserId = 3,
                     PostId = 2,
                     Type = ReactionType.Like,
+                    UserId = 3
                 },
                 new Reaction
                 {
                     Id = 3,
-                    UserId = 5,
                     PostId = 2,
                     Type = ReactionType.Heart,
+                    UserId = 5
                 }
             );
-            
             base.OnModelCreating(modelBuilder);
         }
     }

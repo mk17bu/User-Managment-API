@@ -7,11 +7,11 @@ public class Post
     public string Content { get; set; }
     public DateTime Date { get; set; }
     
+    public User? User { get; set; }
     public int UserId { get; set; }
-    public User User { get; set; }
-
-    public ICollection<Reaction> Reactions { get; set; }
-    public ICollection<Comment> Comments { get; set; }
+    
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public ICollection<Reaction> Reactions { get; set; } = new List<Reaction>();
     
     public void UpdatePost(string title, string content)
     {

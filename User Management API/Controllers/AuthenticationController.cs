@@ -46,7 +46,7 @@ public class AuthenticationController(IConfiguration configuration) : Controller
             _configuration["Authentication:Audience"],
             claimsForToken,
             DateTime.UtcNow,
-            DateTime.UtcNow.AddHours(-1),
+            DateTime.UtcNow.AddHours(1),
             signingCredentials);
 
         var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);

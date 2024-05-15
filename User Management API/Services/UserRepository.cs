@@ -5,9 +5,9 @@ using User_Management_API.Models;
 
 namespace User_Management_API.Services;
 
-public class UserManagementRepository(UserManagementContext context) : IUserManagmentRepository
+public class UserRepository(UserManagementDbContext context) : IUserRepository
 {
-    private readonly UserManagementContext _context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly UserManagementDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
     
     public async Task<IEnumerable<User>> GetUsersAsync()
     {

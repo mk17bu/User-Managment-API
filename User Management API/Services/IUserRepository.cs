@@ -3,7 +3,7 @@ using User_Management_API.Models;
 
 namespace User_Management_API.Services;
 
-public interface IUserManagmentRepository
+public interface IUserRepository
 {
     Task<IEnumerable<User>> GetUsersAsync();
     Task<User?> GetUserByIdAsync(int userId);

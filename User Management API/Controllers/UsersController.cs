@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using User_Management_API.Entities;
 using User_Management_API.Models;
@@ -8,10 +9,13 @@ namespace User_Management_API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/users")]
-public class UsersController(IUserRepository userRepository) : ControllerBase
+[Route("api/v{version:apiVersion}/users")]
+[ApiVersion(1)]
+[ApiVersion(2)]
+public class UsersController(IUserRepository userRepository, ILogger<UsersController> logger) : ControllerBase
 {
     private readonly IUserRepository _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+    private readonly ILogger<UsersController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     
     [HttpGet]
     public async Task<IActionResult> GetUsers()
@@ -26,6 +30,7 @@ public class UsersController(IUserRepository userRepository) : ControllerBase
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
         {
+            _logger.LogInformation($"User with ID: {userId} can't be found.");
             return NotFound();
         }
 

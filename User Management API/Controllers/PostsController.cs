@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using User_Management_API.Entities;
 using User_Management_API.Models;
@@ -8,7 +9,8 @@ namespace User_Management_API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/posts")]
+[Route("api/v{version:apiVersion}/posts")]
+[ApiVersion(2)]
 public class PostsController(IPostRepository postRepository, ILogger<PostsController> logger) : ControllerBase
 {
     private readonly IPostRepository _postRepository = postRepository ?? throw new ArgumentNullException(nameof(postRepository));

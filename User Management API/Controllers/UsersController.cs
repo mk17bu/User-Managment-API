@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using User_Management_API.Entities;
 using User_Management_API.Models;
@@ -8,7 +9,9 @@ namespace User_Management_API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/users")]
+[Route("api/v{version:apiVersion}/users")]
+[ApiVersion(1)]
+[ApiVersion(2)]
 public class UsersController(IUserRepository userRepository, ILogger<UsersController> logger) : ControllerBase
 {
     private readonly IUserRepository _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));

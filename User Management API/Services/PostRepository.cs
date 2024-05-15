@@ -1,22 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using User_Management_API.DbContexts;
 using User_Management_API.Entities;
 using User_Management_API.Models;
-using DbContext = User_Management_API.DbContexts.DbContext;
 
 namespace User_Management_API.Services;
 
-public class PostRepository(DbContext context) : IPostRepository
+public class PostRepository(UserManagementDbContext context) : IPostRepository
 {
-    private readonly DbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly UserManagementDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
     
     public async Task<IEnumerable<Post>> GetPostsAsync()
     {
-        return await _context.Posts.OrderBy(p => p.Date).ToListAsync();
+        return await _context.Posts
+            .Include(p => p.User)
+            .Include(p => p.Reactions)
+            .Include(p => p.Comments)
+            .OrderBy(p => p.Date)
+            .ToListAsync();
     }
     
     public async Task<Post?> GetPostByIdAsync(int postId)
     {
-        return await _context.Posts.FirstOrDefaultAsync(u => u.Id == postId);
+        return await _context.Posts
+            .Include(p => p.User)
+            .Include(p => p.Reactions)
+            .Include(p => p.Comments)
+            .FirstOrDefaultAsync(u => u.Id == postId);
     }
     
     public async Task<Post> CreatePostAsync(PostForCreationDto postForCreationDto)
